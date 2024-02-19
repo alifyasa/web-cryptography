@@ -13,8 +13,8 @@ class Encrypt::Request
   end
 
   def validate_attributes
-      raise Encrypt::Error.new("Fields key, data, and cipher cannot be empty") if key.nil? || data.nil? || cipher.nil?
-      raise Encrypt::Error.new("Invalid Cipher") unless VALID_CIPHERS.include?(cipher.upcase)
+      raise Encrypt::Exception.new("Fields key, data, and cipher cannot be empty") if key.nil? || data.nil? || cipher.nil?
+      raise Encrypt::Exception.new("Invalid Cipher") unless VALID_CIPHERS.include?(cipher.upcase)
   end
 
   def encrypt

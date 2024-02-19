@@ -18,7 +18,7 @@ class EncryptController < ApplicationController
             data: ciphertext,
             message: "Success"
           ).json
-        rescue Encrypt::Error => e
+        rescue Encrypt::Exception => e
             render json: {
                 message: e.message
             }, status: :bad_request

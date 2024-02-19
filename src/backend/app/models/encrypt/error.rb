@@ -1,4 +1,4 @@
-class Encrypt::Error < StandardError
+class Encrypt::Exception < StandardError
   attr_accessor :message
   def initialize(message)
       @message = message
