@@ -7,7 +7,7 @@ class EncryptController < ApplicationController
         begin
           encrypt_request = EncryptRequest.new(
             key: params[:key],
-            data: params[:data],            
+            data: params[:data],
             cipher: params[:cipher]
           )
           # Processing
@@ -16,16 +16,19 @@ class EncryptController < ApplicationController
             message: "Success"
           ).json
         rescue EncryptError => e
-            puts e.message()
             render json: EncryptResponse.new(
                 data: nil,
                 message: "#{e.message}"
-            ), status: :bad_request 
+            ).json, status: :bad_request
+        rescue StandardError => _
+            render json: {
+                message: "Server Error"
+            }, status: :internal_server_error
         end
-    end  
+    end
 end
 
-class EncryptError < StandardError 
+class EncryptError < StandardError
     attr_accessor :message
     def initialize(message)
         @message = message
@@ -46,13 +49,14 @@ class EncryptRequest
     end
 
     def validate_attributes
-        raise EncryptError.new("key, data, and cipher cannot be empty") if key.nil? || data.nil? || cipher.nil?
+        raise EncryptError.new("Fields key, data, and cipher cannot be empty") if key.nil? || data.nil? || cipher.nil?
         raise EncryptError.new("Invalid Cipher") unless VALID_CIPHERS.include?(cipher)
     end
 end
 
 class EncryptResponse
     attr_accessor :message, :data
+
     def initialize(data:, message:)
         @message = message
         @data = data
@@ -61,6 +65,4 @@ class EncryptResponse
     def json
         { data: self.data, message: self.message }
     end
-
 end
-
