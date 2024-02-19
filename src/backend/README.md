@@ -22,3 +22,9 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+## Contoh Request
+
+```
+curl -X POST 127.0.0.1:3000/encrypt -d '{ "cipher": "VIGNERE", "data": "ABC", "key":"VIGNERE" }' -s -H "Content-Type: application/json" | jq
+```
