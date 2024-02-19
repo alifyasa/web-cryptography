@@ -1,4 +1,4 @@
-class EncryptResponse
+class Encrypt::Response
   attr_accessor :message, :data
 
   def initialize(data:, message:)
