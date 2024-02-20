@@ -1,6 +1,7 @@
 class Encrypt::Request
   VALID_CIPHERS = [
-    "PLAYFAIR"
+    "PLAYFAIR",
+    "HILL"
 ]
 
   attr_accessor :key, :data, :cipher
@@ -8,7 +9,7 @@ class Encrypt::Request
   def initialize(key:, data:, cipher:)
       @key = key
       @data = data
-      @cipher = cipher
+      @cipher = cipher.upcase
       validate_attributes
   end
 
@@ -18,6 +19,13 @@ class Encrypt::Request
   end
 
   def encrypt
-    Cipher::Playfair.encrypt(@key, Plaintext::String.new(@data))
+    case @cipher
+    when "PLAYFAIR"
+      Cipher::Playfair.encrypt(@key, Plaintext::String.new(@data))
+    when "HILL"
+      Cipher::Hill.encrypt(@key, Plaintext::String.new(@data))
+    else
+      raise Encrypt::Exception.new("Invalid Cipher")
+    end
   end
 end
