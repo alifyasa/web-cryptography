@@ -27,7 +27,7 @@ class Cipher::Hill
     # Validation
     raise Utils::Exception.new("Can only encrypt string") unless data.is_a?(Plaintext::String)
     plaintext = data.to_s
-    matrix_key = key_to_matrix_key(key, Math.sqrt(key.length).to_i)
+    matrix_key = key_to_matrix_key(key, Math.sqrt(plaintext.length).to_i)
 
     # Prepare plaintext
     plaintext = plaintext.gsub(/[^a-zA-Z]/, '').upcase
