@@ -3,13 +3,13 @@ require 'matrix'
 class Cipher::Hill
   def self.key_to_matrix_key(key, block_size)
     if key.length != block_size**2
-      raise Encrypt::Exception.new("Expected key size #{block_size ** 2}, got key size #{key.length}")
+      raise Utils::Exception.new("Expected key size #{block_size ** 2}, got key size #{key.length}")
     end
 
     matrix_key = Matrix.build(block_size) { |row, col| encode_char(key[row * block_size + col]) }
 
     if matrix_key.det == 0
-      raise Encrypt::Exception.new("Key #{key.upcase} is not invertible")
+      raise Utils::Exception.new("Key #{key.upcase} is not invertible")
     end
 
     matrix_key
@@ -25,7 +25,7 @@ class Cipher::Hill
 
   def self.encrypt(key, data)
     # Validation
-    raise Encrypt::Exception.new("Can only encrypt string") unless data.is_a?(Plaintext::String)
+    raise Utils::Exception.new("Can only encrypt string") unless data.is_a?(Plaintext::String)
     plaintext = data.to_s
     matrix_key = key_to_matrix_key(key, Math.sqrt(key.length).to_i)
 

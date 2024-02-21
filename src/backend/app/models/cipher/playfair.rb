@@ -2,7 +2,7 @@ class Cipher::Playfair
 
   def self.encrypt(key, data)
     # Validation
-    raise Encrypt::Exception.new("Can only encrypt string") unless data.is_a?(Plaintext::String)
+    raise Utils::Exception.new("Can only encrypt string") unless data.is_a?(Plaintext::String)
     plaintext = data.to_s
 
     # Prepare plaintext

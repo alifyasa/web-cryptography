@@ -6,7 +6,7 @@ class EncryptController < ApplicationController
     def create
         begin
           # Validation
-          encrypt_request = Encrypt::Request.new(
+          encrypt_request = Client::Request.new(
             key: params[:key],
             data: params[:data],
             cipher: params[:cipher]
@@ -14,11 +14,11 @@ class EncryptController < ApplicationController
           # Processing
           ciphertext = encrypt_request.encrypt
           # Output
-          render json: Encrypt::Response.new(
+          render json: Server::Response.new(
             data: ciphertext,
             message: "Success"
           ).json
-        rescue Encrypt::Exception => e
+        rescue Utils::Exception => e
             render json: {
                 message: e.message
             }, status: :bad_request
