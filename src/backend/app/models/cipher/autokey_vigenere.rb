@@ -11,12 +11,12 @@ class Cipher::AutokeyVigenere
       plaintext = plaintext.upcase.split('')
       ret = ""
       for x in key do
-        ret += Cipher::Caesar.encrypt(@@UPPERCASE_LETTERS.index(x) ,plaintext[pos])
+        ret += @@UPPERCASE_LETTERS[(@@UPPERCASE_LETTERS.index(plaintext[pos]) + @@UPPERCASE_LETTERS.index(x))%26]
         pos += 1
       end
       pos1 = 0
       while pos<length_plaintext
-        ret += Cipher::Caesar.encrypt(@@UPPERCASE_LETTERS.index(plaintext[pos1]) ,plaintext[pos])
+        ret += @@UPPERCASE_LETTERS[(@@UPPERCASE_LETTERS.index(plaintext[pos]) + @@UPPERCASE_LETTERS.index(plaintext[pos1]))%26]
         pos += 1
         pos1 += 1
       end
@@ -33,12 +33,12 @@ class Cipher::AutokeyVigenere
       ciphertext = ciphertext.upcase.split('')
       ret = ""
       for x in key do
-        ret += Cipher::Caesar.decrypt(@@UPPERCASE_LETTERS.index(x),ciphertext[pos])
+        ret += @@UPPERCASE_LETTERS[(@@UPPERCASE_LETTERS.index(ciphertext[pos]) - @@UPPERCASE_LETTERS.index(x))%26]
         pos += 1
       end
       pos1 = 0
       while pos<length_ciphertext
-        ret += Cipher::Caesar.decrypt(@@UPPERCASE_LETTERS.index(ret[pos1]),ciphertext[pos])
+        ret += @@UPPERCASE_LETTERS[(@@UPPERCASE_LETTERS.index(ciphertext[pos]) - @@UPPERCASE_LETTERS.index(ret[pos1]))%26]
         pos += 1
         pos1 += 1
       end
