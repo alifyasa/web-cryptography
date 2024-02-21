@@ -9,7 +9,7 @@ class Cipher::ExtendedVigenere
         return ciphertext.join
     end
 
-    def self.encrypt(key,ciphertext)
+    def self.decrypt(key,ciphertext)
         key = key.split('')
         plaintext = ciphertext.split('').collect do |letter|
             plainletter = ((letter.ord-key.first.ord)%256).chr;
