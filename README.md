@@ -7,4 +7,4 @@ Dibuat sebagai Tugas Kecil mata kuliah Kriptografi.
 | Nama | NIM |
 | ---- | --- |
 | Muhammad Alif Putra Yasa | 13520135 |
-| Muhammad Gilang Ramadhan | 13520??? |
+| Muhammad Gilang Ramadhan | 13520137 |
