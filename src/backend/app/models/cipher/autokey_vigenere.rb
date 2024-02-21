@@ -23,19 +23,22 @@ class Cipher::AutokeyVigenere
       return ret
     end
 
-    def self.decrypt(key,plaintext)
+    # Lakukan logika pembalikan, yaitu kita berusaha melengkapi key dengan plainteks ke-0 sampai dengan ke-k (Pada saat ciphertext selesai diiterasi)
+    # Untuk setiap key k-0 sampai ke ke-k, assign menjadi kunci
+    # Demikian untuk setiap key, lakukan caesar cipher dgn ciphertext sehingga menghasilkan plaintext yang ingin dicari selesai
+    def self.decrypt(key,ciphertext)
       pos = 0
-      length_plaintext = plaintext.length
+      length_ciphertext = ciphertext.length
       key = key.upcase.split('')
-      plaintext = plaintext.upcase.split('')
+      ciphertext = ciphertext.upcase.split('')
       ret = ""
       for x in key do
-        ret += Cipher::Caesar.decrypt(@@UPPERCASE_LETTERS.index(x) ,plaintext[pos])
+        ret += Cipher::Caesar.decrypt(@@UPPERCASE_LETTERS.index(x),ciphertext[pos])
         pos += 1
       end
       pos1 = 0
-      while pos<length_plaintext
-        ret += Cipher::Caesar.decrypt(@@UPPERCASE_LETTERS.index(plaintext[pos1]) ,plaintext[pos])
+      while pos<length_ciphertext
+        ret += Cipher::Caesar.decrypt(@@UPPERCASE_LETTERS.index(ret[pos1]),ciphertext[pos])
         pos += 1
         pos1 += 1
       end
