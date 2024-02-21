@@ -1,6 +1,9 @@
 class Cipher::AutokeyVigenere
     @@UPPERCASE_LETTERS = ("A".."Z").to_a
-
+    # Untuk setiap length(key) < length(plaintext), setelah plaintext di lakukan enkrips/dekripsi sepanjang length(key)
+    # lanjutkan dengan enkripsi/dekripsi substring plaintext tersebut sendiri mulai dari index pertama
+    # Sampai dengan elemen plaintext yang diiterasi selesai di-enkripsi/dekripsi semua
+    # untuk enkripsi/dekripsi per letternya menggukana caesar cipher sama seperti vigenere biasa
     def self.encrypt(key,plaintext)
       pos = 0
       length_plaintext = plaintext.length

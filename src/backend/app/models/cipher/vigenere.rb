@@ -1,9 +1,8 @@
 class Cipher::Vigenere
     @@UPPERCASE_LETTERS = ("A".."Z").to_a
-
+    # Idenya dgn cara menggeser untuk setiap karakter pertama sedemikian sehingga, pengecekannya menjadi circular
     def self.encrypt(key, plaintext)
         key = key.upcase.split('')
-        # Idenya dgn cara menggeser untuk setiap karakter pertama sedemikian sehingga, pengecekannya menjadi circular
         ciphertext = plaintext.split('').collect do |letter|
           if @@UPPERCASE_LETTERS.include? letter
             cipherletter = Cipher::Caesar.encrypt(@@UPPERCASE_LETTERS.index(key.first), letter)
@@ -13,13 +12,11 @@ class Cipher::Vigenere
           end
           cipherletter
         end
-    
         return ciphertext.join
     end
   
     def self.decrypt(key, ciphertext)
         key = key.upcase.split('')
-        # Idenya dgn cara menggeser untuk setiap karakter pertama sedemikian sehingga, pengecekannya menjadi circular
         plaintext = ciphertext.upcase.split('').collect do |cipherletter|
           if @@UPPERCASE_LETTERS.include? cipherletter
             letter = Cipher::Caesar.decrypt(@@UPPERCASE_LETTERS.index(key.first), cipherletter)
@@ -29,7 +26,6 @@ class Cipher::Vigenere
           end
           letter
         end
-    
         return plaintext.join
       end
   end

@@ -4,7 +4,7 @@ class Client::Request
         "HILL",
         "VIGENERE",
         "VIGENERE_EXTEND",
-        "VARIAN_VIGENERE",
+        "AUTOKEY_VIGENERE",
     ]
   
     attr_accessor :key, :data, :cipher
@@ -25,6 +25,10 @@ class Client::Request
       case @cipher
       when "VIGENERE"
         Cipher::Vigenere.decrypt(@key, Plaintext::String.new(@data))
+      when "AUTOKEY_VIGENERE"
+        Cipher::AutokeyVigenere.decrypt(@key, Plaintext::String.new(@data))
+      else
+        raise Utils::Exception.new("Invalid Cipher")
       end
     end
   
@@ -36,6 +40,8 @@ class Client::Request
         Cipher::Hill.encrypt(@key, Plaintext::String.new(@data))
       when "VIGENERE"
         Cipher::Vigenere.encrypt(@key, Plaintext::String.new(@data))
+      when "AUTOKEY_VIGENERE"
+        Cipher::AutokeyVigenere.encrypt(@key, Plaintext::String.new(@data))
       else
         raise Utils::Exception.new("Invalid Cipher")
       end
