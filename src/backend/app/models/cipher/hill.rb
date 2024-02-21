@@ -51,6 +51,9 @@ class Cipher::Hill
     # Multiply matrix_key with matrix_plaintext
     encrypted_matrix = matrix_key * matrix_plaintext
 
+    # Menyamakan dengan contoh
+    encrypted_matrix = encrypted_matrix.transpose
+
     puts matrix_key, matrix_plaintext, encrypted_matrix
 
     # return
