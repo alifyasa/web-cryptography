@@ -1,4 +1,4 @@
-class Cipher::Vigenere
+class Cipher::AutokeyVigenere
     @@UPPERCASE_LETTERS = ("A".."Z").to_a
     @@LOWERCASE_LETTERS = ("a".."z").to_a
 
