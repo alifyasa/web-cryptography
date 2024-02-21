@@ -24,9 +24,11 @@ class Client::Request
     def decrypt
       case @cipher
       when "VIGENERE"
-        Cipher::Vigenere.decrypt(@key, Plaintext::String.new(@data))
+        Cipher::Vigenere.decrypt(@key, Ciphertext::String.new(@data))
       when "AUTOKEY_VIGENERE"
-        Cipher::AutokeyVigenere.decrypt(@key, Plaintext::String.new(@data))
+        Cipher::AutokeyVigenere.decrypt(@key, Ciphertext::String.new(@data))
+      when "EXTENDED_VIGENERE"
+        Cipher::ExtendedVigenere.decrypt(@key, Ciphertext::String.new(@data))
       else
         raise Utils::Exception.new("Invalid Cipher")
       end
@@ -42,6 +44,8 @@ class Client::Request
         Cipher::Vigenere.encrypt(@key, Plaintext::String.new(@data))
       when "AUTOKEY_VIGENERE"
         Cipher::AutokeyVigenere.encrypt(@key, Plaintext::String.new(@data))
+      when "EXTENDED_VIGENERE"
+        Cipher::ExtendedVigenere.encrypt(@key, Plaintext::String.new(@data))
       else
         raise Utils::Exception.new("Invalid Cipher")
       end
