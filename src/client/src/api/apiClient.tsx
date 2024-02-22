@@ -22,7 +22,8 @@ export type DecryptRequest = {
 };
 
 export const postEncrypt = async (parameter: EncryptRequest) => {
-  return await axiosClient.post("/encrypt", parameter);
+  return await axiosClient
+    .post("/encrypt", parameter)
 };
 
 export const postDecrypt = async (parameter: DecryptRequest) => {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css'; // Import default dropdown styles
 import './style/Form.css'; // Import custom form styles
-import { postEncrypt,postDecrypt } from '../api/apiClient';
+import { postEncrypt, postDecrypt } from '../api/apiClient';
 import { Cipher } from 'crypto';
 
 const Form: React.FC = () => {
@@ -22,14 +22,14 @@ const Form: React.FC = () => {
 
   const options = ['Text'];
   const operations = ['Encrypt',
-                      'Decrypt']
+    'Decrypt']
   const cipherList = ['Vigenere',
-                      'Playfair',
-                      'Hill',
-                      'Vigenere_Extend',
-                      'Autokey_Vigenere',
-                      'Affine',
-                      'Super']
+    'Playfair',
+    'Hill',
+    'Vigenere_Extend',
+    'Autokey_Vigenere',
+    'Affine',
+    'Super']
 
   const handleDropdownChange = (option: any) => {
     setOptionValueType(option.value);
@@ -45,27 +45,46 @@ const Form: React.FC = () => {
 
   const getOperation = async () => {
     var request = {
-                      cipher: cipherType,
-                      data: inputText,
-                      key: key
-                  }
+      cipher: cipherType,
+      data: inputText,
+      key: key
+    }
     var response = null
-    if(isEncrypt=="Encrypt") response = await postEncrypt(request);
-    else response = await postDecrypt(request);
-    setShowResult(true);
-    setMessage(response.data.message);
-    setResultText(response.data.data);
+    if (isEncrypt == "Encrypt") {
+      await postEncrypt(request)
+        .then(response => {
+          setShowResult(true);
+          setMessage(response.data.message);
+          setResultText(response.data.data);      
+        })
+        .catch(({ response }) => {
+          setMessage(response.data.message);
+          setResultText("");      
+        });
+    }
+    else { 
+      await postDecrypt(request)        
+        .then(response => {
+          setShowResult(true);
+          setMessage(response.data.message);
+          setResultText(response.data.data);      
+        })
+        .catch(({ response }) => {
+          setMessage(response.data.message);
+          setResultText("");      
+        });
+    }
   }
 
   return (
     <div className="form-container">
       <h2 className="form-title">Web Cryptography</h2>
       <form className="encryption-form" onSubmit={handleSubmit}>
-          {showResult && (
-            <div className="encrypted-text-container">
-              <p className="encrypted-text">{message}</p>
-            </div>
-          )}
+        {showResult && (
+          <div className="encrypted-text-container">
+            <p className="encrypted-text">{message}</p>
+          </div>
+        )}
         <div className="form-group">
           <label className="form-label" htmlFor="inputText">Input Type:</label>
           <Dropdown
@@ -115,13 +134,13 @@ const Form: React.FC = () => {
             onChange={(e) => setKey(e.target.value)}
           />
           {
-            cipherType == "Affine" && 
+            cipherType == "Affine" &&
             <div>
               Key is in format a,b. each of them are integer
             </div>
           }
           {
-            cipherType == "Super" && 
+            cipherType == "Super" &&
             <div>
               Key is in format a,b. a is string and b is integer
             </div>
