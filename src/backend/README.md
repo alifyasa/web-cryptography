@@ -1,5 +1,11 @@
 # Web Cryptography Backend
 
+## How to Run
+
+ > Cara 1: Dengan menggunakan `Dockerfile`.
+
+ > Cara 2: Install _Ruby on Rails_ dan menjalankan `rails server`.
+
 ## Endpoint
 
 ### `/encrypt`
