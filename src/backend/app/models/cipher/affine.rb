@@ -26,7 +26,9 @@ class Cipher::Affine
       raise Utils::Exception.new("Invalid key format. Please provide the key in the format 'a,b'.")
     end
 
-    plaintext = data.to_s.upcase
+    plaintext = data.to_s
+    plaintext = plaintext.gsub(/[^a-zA-Z]/, '').upcase
+
     a, b = key.split(',').map(&:to_i)
 
     unless coprime?(a, 26)
