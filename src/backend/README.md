@@ -44,7 +44,7 @@ alifyasa@alifyasa:~$ curl -X POST 127.0.0.1:3000/encrypt -d '{ "cipher": "hill",
 }
 ```
 
-### Deksripsi menggunakan `curl`
+### Dekripsi menggunakan `curl`
 
 ```console
 alifyasa@alifyasa:~$ curl -X POST 127.0.0.1:3000/decrypt -d '{ "cipher": "hill", "data": "EZFGGONWEKJKCPGKKNACY", "key":"GYBNQKURP" }
