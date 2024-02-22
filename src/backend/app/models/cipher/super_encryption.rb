@@ -1,9 +1,11 @@
+require "base64"
+
 class Cipher::SuperEncryption
 
     def self.encrypt(key, data)
 
         # Pattern match and split the key
-        matches = key.match(/^\s*([^,\s]+)\s*,\s*(\d+)\s*$/)
+        matches = key.match(/^\s*([^,\s].*?)\s*,\s*(\d+)\s*$/)
 
         # Check if the match was successful
         if matches.nil?
@@ -15,8 +17,7 @@ class Cipher::SuperEncryption
 
         plaintext = data.to_s
 
-        encrypt1_letter = Cipher::ExtendedVigenere.encrypt(key_subs,plaintext)
-        puts encrypt1_letter.dump
+        encrypt1_letter = ExtendedVigenere.encrypt(key_subs,plaintext)
         encrypt1_length = encrypt1_letter.length
         length_row = encrypt1_length/key_trans
         if(encrypt1_length%key_trans != 0)
@@ -31,13 +32,12 @@ class Cipher::SuperEncryption
                 end
             end
         end
-        puts ret.dump
-        return ret
+        return Base64.encode64(ret)
     end
 
     def self.decrypt(key,data)
         # Pattern match and split the key
-        matches = key.match(/^\s*([^,\s]+)\s*,\s*(\d+)\s*$/)
+        matches = key.match(/^\s*([^,\s].*?)\s*,\s*(\d+)\s*$/)
 
         # Check if the match was successful
         if matches.nil?
@@ -48,7 +48,9 @@ class Cipher::SuperEncryption
         key_trans = matches[2].to_i
 
         ciphertext = data.to_s
-
+        
+        ciphertext = Base64.decode64(ciphertext)
+        
         ciphertext_length = ciphertext.length
         length_col = ciphertext_length/key_trans
         if(ciphertext_length%key_trans != 0)
@@ -58,8 +60,8 @@ class Cipher::SuperEncryption
         row_batas = ciphertext_length%key_trans
         for column_ind in 0..(length_col-1) do
             for row_ind in 0..(key_trans-1) do
-                pos = length_col*row_ind + column_ind
                 if(key_trans*column_ind+row_ind < ciphertext_length)
+                    pos = length_col*row_ind + column_ind
                     if(row_batas > 0 && row_ind-row_batas > 0)
                         ret += ciphertext[pos-(row_ind-row_batas)]
                     else
@@ -68,7 +70,7 @@ class Cipher::SuperEncryption
                 end
             end
         end
-        decrypt1_letter = Cipher::ExtendedVigenere.decrypt(key_subs,ret)
+        decrypt1_letter = ExtendedVigenere.decrypt(key_subs,ret)
         return decrypt1_letter
     end
 end

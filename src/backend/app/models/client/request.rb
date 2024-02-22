@@ -1,3 +1,5 @@
+require "base64"
+
 class Client::Request
   VALID_CIPHERS = [
       "PLAYFAIR",
@@ -30,7 +32,7 @@ class Client::Request
     when "AUTOKEY_VIGENERE"
       Cipher::AutokeyVigenere.decrypt(@key, @data)
     when "EXTENDED_VIGENERE"
-      Cipher::ExtendedVigenere.decrypt(@key, @data).dump
+      Cipher::ExtendedVigenere.decrypt(@key, Base64.decode64(@data))
     when "AFFINE"
       Cipher::Affine.decrypt(@key, Ciphertext::String.new(@data))
     when "PLAYFAIR"
@@ -38,7 +40,7 @@ class Client::Request
     when "HILL"
       Cipher::Hill.decrypt(@key, Ciphertext::String.new(@data))
     when "SUPER"
-      Cipher::SuperEncryption.decrypt(@key, Ciphertext::String.new(@data)).dump
+      Cipher::SuperEncryption.decrypt(@key, Ciphertext::String.new(@data))
     else
       raise Utils::Exception.new("Invalid Cipher")
     end
@@ -55,11 +57,11 @@ class Client::Request
     when "AUTOKEY_VIGENERE"
       Cipher::AutokeyVigenere.encrypt(@key, @data)
     when "EXTENDED_VIGENERE"
-      Cipher::ExtendedVigenere.encrypt(@key, @data).dump
+      Base64.encode64(Cipher::ExtendedVigenere.encrypt(@key, @data))
     when "AFFINE"
       Cipher::Affine.encrypt(@key, Plaintext::String.new(@data))
     when "SUPER"
-      Cipher::SuperEncryption.encrypt(@key, Plaintext::String.new(@data)).dump
+      Cipher::SuperEncryption.encrypt(@key, Plaintext::String.new(@data))
     else
       raise Utils::Exception.new("Invalid Cipher")
     end
