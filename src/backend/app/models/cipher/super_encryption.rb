@@ -60,7 +60,7 @@ class Cipher::SuperEncryption
             for row_ind in 0..(key_trans-1) do
                 pos = length_col*row_ind + column_ind
                 if(key_trans*column_ind+row_ind < ciphertext_length)
-                    if(row_ind-row_batas > 0)
+                    if(row_batas > 0 && row_ind-row_batas > 0)
                         ret += ciphertext[pos-(row_ind-row_batas)]
                     else
                         ret += ciphertext[pos]
