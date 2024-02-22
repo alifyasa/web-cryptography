@@ -26,14 +26,16 @@ class Cipher::SuperEncryption
             length_col += 1
         end
         ret = ""
-        decrease = 0;
+        row_batas = ciphertext_length%key_trans
         for column_ind in 0..(length_col-1) do
             for row_ind in 0..(key_trans-1) do
                 pos = length_col*row_ind + column_ind
-                if(column_ind*key_trans + row_ind >= ciphertext_length)
-                    decrease += 1
-                else
-                    ret += ciphertext[pos-decrease]
+                if(key_trans*column_ind+row_ind < ciphertext_length)
+                    if(row_ind-row_batas > 0)
+                        ret += ciphertext[pos-(row_ind-row_batas)]
+                    else 
+                        ret += ciphertext[pos]
+                    end
                 end
             end
         end
