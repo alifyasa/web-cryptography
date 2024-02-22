@@ -11,8 +11,12 @@ class EncryptController < ApplicationController
             data: params[:data],
             cipher: params[:cipher]
           )
+          puts "Key    : #{params[:key]}"
+          puts "Data   : #{params[:data]}"
+          puts "Cipher : #{params[:cipher]}"
           # Processing
           ciphertext = encrypt_request.encrypt
+          puts "Result : #{ciphertext}"
           # Output
           render json: Server::Response.new(
             data: ciphertext,

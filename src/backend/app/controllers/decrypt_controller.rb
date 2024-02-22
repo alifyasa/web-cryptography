@@ -10,7 +10,11 @@ class DecryptController < ApplicationController
                 data: params[:data],
                 cipher: params[:cipher]
             )
+            puts "Key    : #{params[:key]}"
+            puts "Data   : #{params[:data]}"
+            puts "Cipher : #{params[:cipher]}"
             plaintext = decrypt_request.decrypt
+            puts "Result : #{plaintext}"
             render json: Server::Response.new(
                 data: plaintext,
                 message: "Success"
