@@ -30,6 +30,8 @@ class Client::Request
         Cipher::AutokeyVigenere.decrypt(@key, Ciphertext::String.new(@data))
       when "EXTENDED_VIGENERE"
         Cipher::ExtendedVigenere.decrypt(@key, Ciphertext::String.new(@data))
+      when "AFFINE"
+        Cipher::Affine.decrypt(@key, Ciphertext::String.new(@data))
       else
         raise Utils::Exception.new("Invalid Cipher")
       end
