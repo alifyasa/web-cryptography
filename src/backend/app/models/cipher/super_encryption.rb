@@ -17,7 +17,7 @@ class Cipher::SuperEncryption
 
         plaintext = data.to_s
 
-        encrypt1_letter = ExtendedVigenere.encrypt(key_subs,plaintext)
+        encrypt1_letter = Cipher::ExtendedVigenere.encrypt(key_subs,plaintext)
         encrypt1_length = encrypt1_letter.length
         length_row = encrypt1_length/key_trans
         if(encrypt1_length%key_trans != 0)
@@ -70,7 +70,7 @@ class Cipher::SuperEncryption
                 end
             end
         end
-        decrypt1_letter = ExtendedVigenere.decrypt(key_subs,ret)
+        decrypt1_letter = Cipher::ExtendedVigenere.decrypt(key_subs,ret)
         return decrypt1_letter
     end
 end
