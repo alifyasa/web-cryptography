@@ -35,7 +35,20 @@ class Cipher::SuperEncryption
         return ret
     end
 
-    def self.decrypt(key_trans,key_subs,ciphertext)
+    def self.decrypt(key,data)
+        # Pattern match and split the key
+        matches = key.match(/^\s*([^,\s]+)\s*,\s*(\d+)\s*$/)
+
+        # Check if the match was successful
+        if matches.nil?
+            raise Utils::Exception.new("Invalid key format. Please provide the key in the format 'a,b'.")
+        end
+
+        key_subs = matches[1]
+        key_trans = matches[2].to_i
+
+        ciphertext = data.to_s
+
         ciphertext_length = ciphertext.length
         length_col = ciphertext_length/key_trans
         if(ciphertext_length%key_trans != 0)

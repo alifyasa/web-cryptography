@@ -11,13 +11,13 @@ export const axiosClient = axios.create({
 
 export type EncryptRequest = {
   cipher: string,
-  data: string
+  data: string,
   key: string
 };
 
 export type DecryptRequest = {
   cipher: string,
-  data: string
+  data: string,
   key: string
 };
 
