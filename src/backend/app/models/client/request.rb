@@ -5,7 +5,8 @@ class Client::Request
         "VIGENERE",
         "VIGENERE_EXTEND",
         "AUTOKEY_VIGENERE",
-        "AFFINE"
+        "AFFINE",
+        "SUPER"
     ]
 
     attr_accessor :key, :data, :cipher
@@ -25,17 +26,19 @@ class Client::Request
     def decrypt
       case @cipher
       when "VIGENERE"
-        Cipher::Vigenere.decrypt(@key, Ciphertext::String.new(@data))
+        Cipher::Vigenere.decrypt(@key, @data)
       when "AUTOKEY_VIGENERE"
-        Cipher::AutokeyVigenere.decrypt(@key, Ciphertext::String.new(@data))
+        Cipher::AutokeyVigenere.decrypt(@key, @data)
       when "EXTENDED_VIGENERE"
-        Cipher::ExtendedVigenere.decrypt(@key, Ciphertext::String.new(@data))
+        Cipher::ExtendedVigenere.decrypt(@key, @data)
       when "AFFINE"
         Cipher::Affine.decrypt(@key, Ciphertext::String.new(@data))
       when "PLAYFAIR"
         Cipher::Playfair.decrypt(@key, Ciphertext::String.new(@data))
       when "HILL"
         Cipher::Hill.decrypt(@key, Ciphertext::String.new(@data))
+      when "SUPER"
+        Cipher::SuperEncryption.decrypt(@key, Ciphertext::String.new(@data))
       else
         raise Utils::Exception.new("Invalid Cipher")
       end
@@ -48,13 +51,15 @@ class Client::Request
       when "HILL"
         Cipher::Hill.encrypt(@key, Plaintext::String.new(@data))
       when "VIGENERE"
-        Cipher::Vigenere.encrypt(@key, Plaintext::String.new(@data))
+        Cipher::Vigenere.encrypt(@key, @data)
       when "AUTOKEY_VIGENERE"
-        Cipher::AutokeyVigenere.encrypt(@key, Plaintext::String.new(@data))
+        Cipher::AutokeyVigenere.encrypt(@key, @data)
       when "EXTENDED_VIGENERE"
-        Cipher::ExtendedVigenere.encrypt(@key, Plaintext::String.new(@data))
+        Cipher::ExtendedVigenere.encrypt(@key, @data).dump
       when "AFFINE"
         Cipher::Affine.encrypt(@key, Plaintext::String.new(@data))
+      when "SUPER"
+        Cipher::SuperEncryption.encrypt(@key, Plaintext::String.new(@data)).dump
       else
         raise Utils::Exception.new("Invalid Cipher")
       end
