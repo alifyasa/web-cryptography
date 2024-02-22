@@ -32,6 +32,8 @@ class Client::Request
         Cipher::ExtendedVigenere.decrypt(@key, Ciphertext::String.new(@data))
       when "AFFINE"
         Cipher::Affine.decrypt(@key, Ciphertext::String.new(@data))
+      when "PLAYFAIR"
+        Cipher::Playfair.decrypt(@key, Ciphertext::String.new(@data))
       else
         raise Utils::Exception.new("Invalid Cipher")
       end

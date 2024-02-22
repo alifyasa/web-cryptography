@@ -37,6 +37,36 @@ class Cipher::Playfair
     ciphertext
   end
 
+  def self.decrypt(key, data)
+    # Validation
+    raise Utils::Exception.new("Can only decrypt string") unless data.is_a?(Ciphertext::String)
+    ciphertext = data.to_s
+
+    # Prepare plaintext
+    ciphertext = ciphertext.gsub(/[^a-zA-Z]/, '').upcase
+
+    # Prepare key
+    key = generate_key(key)
+    key_index = generate_key_index(key)
+
+    # Decrypt
+    plaintext = ''
+    ciphertext.chars.each_slice(2) do |pair|
+      pair[0], pair[1] = pair[1], pair[0] if pair[0] == pair[1]
+      row1, col1 = key_index[pair[0]]
+      row2, col2 = key_index[pair[1]]
+      if row1 == row2
+        plaintext += key[row1][(col1 - 1) % 5] + key[row2][(col2 - 1) % 5]
+      elsif col1 == col2
+        plaintext += key[(row1 - 1) % 5][col1] + key[(row2 - 1) % 5][col2]
+      else
+        plaintext += key[row1][col2] + key[row2][col1]
+      end
+    end
+
+    plaintext
+  end
+
   def self.generate_key_index(key)
     key_index = {}
     key.each_with_index do |row, i|
