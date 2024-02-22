@@ -1,30 +1,62 @@
-# README
+# Web Cryptography Backend
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## How to Run
 
-Things you may want to cover:
+ > Cara 1: Dengan menggunakan `Dockerfile`.
 
-* Ruby version
+ > Cara 2: Install _Ruby on Rails_ dan menjalankan `rails server`.
 
-* System dependencies
+## Endpoint
 
-* Configuration
+### `/encrypt`
 
-* Database creation
+Menerima POST request dengan parameter berikut:
+ - `cipher`. Pilihan cipher yang digunakan. Value antara `"PLAYFAIR", "HILL", "VIGENERE", "VIGENERE_EXTEND", "AUTOKEY_VIGENERE", "AFFINE"`
+ - `data`. Data yang dienkrip.
+ - `key`. Key yang digunakan untuk mengenkripsi.
 
-* Database initialization
+Response berbentuk JSON sebagai berikut
 
-* How to run the test suite
+```
+# Ketika sukses
+{
+    "data": [Berisi data yang telah dienkripsi],
+    "message": [Status message]
+}
 
-* Services (job queues, cache servers, search engines, etc.)
+# Ketika gagal
+{
+    "message": "Alasan gagal"
+}
+```
 
-* Deployment instructions
+## `/decrypt`
 
-* ...
+Menerima POST request dengan parameter berikut:
+ - `cipher`. Pilihan cipher yang digunakan. Value antara `"PLAYFAIR", "HILL", "VIGENERE", "VIGENERE_EXTEND", "AUTOKEY_VIGENERE", "AFFINE"`
+ - `data`. Data yang didekrip.
+ - `key`. Key yang digunakan saat mengenkripsi.
 
 ## Contoh Request
 
+### Enkripsi menggunakan `curl`
+
+```console
+alifyasa@alifyasa:~$ curl -X POST 127.0.0.1:3000/encrypt -d '{ "cipher": "hill", "data": "muhammadalifputrayasa", "key":"GYBNQKURP" }
+' -s -H "Content-Type: application/json" | jq
+{
+  "data": "EZFGGONWEKJKCPGKKNACY",
+  "message": "Success"
+}
 ```
-curl -X POST 127.0.0.1:3000/encrypt -d '{ "cipher": "VIGNERE", "data": "ABC", "key":"VIGNERE" }' -s -H "Content-Type: application/json" | jq
+
+### Dekripsi menggunakan `curl`
+
+```console
+alifyasa@alifyasa:~$ curl -X POST 127.0.0.1:3000/decrypt -d '{ "cipher": "hill", "data": "EZFGGONWEKJKCPGKKNACY", "key":"GYBNQKURP" }
+' -s -H "Content-Type: application/json" | jq
+{
+  "data": "MUHAMMADALIFPUTRAYASA",
+  "message": "Success"
+}
 ```
