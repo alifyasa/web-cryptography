@@ -1,30 +1,56 @@
-# README
+# Web Cryptography Backend
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Endpoint
 
-Things you may want to cover:
+### `/encrypt`
 
-* Ruby version
+Menerima POST request dengan parameter berikut:
+ - `cipher`. Pilihan cipher yang digunakan. Value antara `"PLAYFAIR", "HILL", "VIGENERE", "VIGENERE_EXTEND", "AUTOKEY_VIGENERE", "AFFINE"`
+ - `data`. Data yang dienkrip.
+ - `key`. Key yang digunakan untuk mengenkripsi.
 
-* System dependencies
+Response berbentuk JSON sebagai berikut
 
-* Configuration
+```
+# Ketika sukses
+{
+    "data": [Berisi data yang telah dienkripsi],
+    "message": [Status message]
+}
 
-* Database creation
+# Ketika gagal
+{
+    "message": "Alasan gagal"
+}
+```
 
-* Database initialization
+## `/decrypt`
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Menerima POST request dengan parameter berikut:
+ - `cipher`. Pilihan cipher yang digunakan. Value antara `"PLAYFAIR", "HILL", "VIGENERE", "VIGENERE_EXTEND", "AUTOKEY_VIGENERE", "AFFINE"`
+ - `data`. Data yang didekrip.
+ - `key`. Key yang digunakan saat mengenkripsi.
 
 ## Contoh Request
 
+### Enkripsi menggunakan `curl`
+
+```console
+alifyasa@alifyasa:~$ curl -X POST 127.0.0.1:3000/encrypt -d '{ "cipher": "hill", "data": "muhammadalifputrayasa", "key":"GYBNQKURP" }
+' -s -H "Content-Type: application/json" | jq
+{
+  "data": "EZFGGONWEKJKCPGKKNACY",
+  "message": "Success"
+}
 ```
-curl -X POST 127.0.0.1:3000/encrypt -d '{ "cipher": "VIGNERE", "data": "ABC", "key":"VIGNERE" }' -s -H "Content-Type: application/json" | jq
+
+### Deksripsi menggunakan `curl`
+
+```console
+alifyasa@alifyasa:~$ curl -X POST 127.0.0.1:3000/decrypt -d '{ "cipher": "hill", "data": "EZFGGONWEKJKCPGKKNACY", "key":"GYBNQKURP" }
+' -s -H "Content-Type: application/json" | jq
+{
+  "data": "MUHAMMADALIFPUTRAYASA",
+  "message": "Success"
+}
 ```
