@@ -34,6 +34,8 @@ class Client::Request
         Cipher::Affine.decrypt(@key, Ciphertext::String.new(@data))
       when "PLAYFAIR"
         Cipher::Playfair.decrypt(@key, Ciphertext::String.new(@data))
+      when "HILL"
+        Cipher::Hill.decrypt(@key, Ciphertext::String.new(@data))
       else
         raise Utils::Exception.new("Invalid Cipher")
       end
